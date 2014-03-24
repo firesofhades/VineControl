@@ -1,0 +1,16 @@
+name: VineControl
+main: tk.mapzcraft.firesofhades.VineControl.VineControl
+version: 1.1
+depend: [WorldEdit, WorldGuard]
+commands:
+  vinecontrol:
+    description: VineControl master command
+    aliases: ['vc','vine']
+    usage: /vinecontrol [global|world|region] [setting] [value|delete] <worldname> <regionID>
+permissions:
+  vinecontrol.bonemeal:
+    default: op
+  vinecontrol.admin:
+    default: op
+  vinecontrol.user:
+    default: not op

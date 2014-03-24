@@ -1,0 +1,41 @@
+# WARNING: 
+# Never make max_cut bigger than max_length,
+# it might remove entire vines or delete blocks above your vines!!!!!!
+# 
+# make sure that min_length + max_cut is smaller then max_length!!!!
+# i.e: if min_length = 1 and max_cut = 5
+# 1+5 = 6, so max_length should be atleast 6!!!!
+# otherwise vines will be cut shorter than the min_lenght!!!!!
+# 
+# if vines have not reached their min_length,
+# they will not be cut if they are near the ground
+# so a long min_length may have adverse effects
+# 
+# regions should be defined within their worlds
+# the examples below show the correct structure
+# region names/ID's are case-sensetive!!!
+# when configuring new worlds or regions
+# all values that are not defined will be inherited from
+# world config or global config
+global:
+  vinecontrol_enabled: true
+  bonemeal_enabled: true
+  above_ground: true
+  min_length: 1
+  max_length: 10
+  max_cut: 5
+  growthrate: 100
+  blacklist:
+    - GLASS
+exampleWorld:
+  blacklist:
+    - GLASS
+    - WOOL
+  exampleRegion:
+    bonemeal_enabled: false
+    min_length: 3
+    max_length: 15
+    growthrate: 50
+exampleWorld2:
+  vinecontrol_enabled: false
+  bonemeal_enabled: false
