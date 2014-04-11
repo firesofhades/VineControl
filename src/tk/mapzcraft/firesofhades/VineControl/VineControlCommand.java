@@ -65,7 +65,7 @@ public VineControl plugin;
 						pInt = Integer.parseInt(arg3[2]);}
 					if(pInt != null){if(pInt<0){arg0.sendMessage("illegal vallue, use positive numbers");return true;}}
 					plugin.config.set("global.growthrate", pInt);
-					arg0.sendMessage("global growthrate");
+					arg0.sendMessage("global growthrate modified");
 					plugin.saveYamls();
 					return true;
 				}

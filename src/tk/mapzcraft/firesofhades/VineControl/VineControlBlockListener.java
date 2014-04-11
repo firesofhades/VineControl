@@ -67,7 +67,6 @@ public class VineControlBlockListener implements Listener {
 		if (!cBlock.getType().equals(Material.VINE) || !vEnabled) {
 			return;
 		}
-		plugin.log.info("vine spread");
 		if (cBlock.getType().equals(Material.VINE)) {
 			cBlock = event.getBlock();
 			

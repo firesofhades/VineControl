@@ -211,7 +211,6 @@ public class VineControl extends JavaPlugin {
 						+ cBlock.getY() + " " + cBlock.getZ() + " "
 						+ cBlock.getWorld().getName())) {
 			cBlock.setType(Material.AIR);
-			log.info("vine spread stopped");
 			return true;
 			
 		}
