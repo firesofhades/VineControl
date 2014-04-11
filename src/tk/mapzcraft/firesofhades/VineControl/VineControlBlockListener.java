@@ -41,54 +41,44 @@ public class VineControlBlockListener implements Listener {
 		ApplicableRegionSet rSet = WGBukkit.getRegionManager(cBlock.getWorld())
 				.getApplicableRegions(cBlock.getLocation());
 		// we create an iterator to go through the region set
-		Iterator<ProtectedRegion> i = rSet.iterator();
-		ProtectedRegion region = null;
-		ProtectedRegion pRegion = null;
-		// looping through the set
-		while (i.hasNext()) {
-			region = i.next();
-			// checking if the regionID is found in the config (regions in
-			// seperate worlds can have the same name, so in the config you will
-			// need to collect regions under their worlds so you can
-			// diffrentiate
-			if (plugin.config.contains(cBlock.getWorld().getName().toString()
-					+ "." + region.getId().toString())) {
-				// if its the first region defined in the config the region is
-				// passed from "region" to "pregion"
-				if (pRegion == null) {
-					pRegion = region;
-				}
-				// if its not the first match priorities are compared if the
-				// priority of "region" is higher as the previous
-				// match("pRegion"), "region" will be passed to "pRegion"
-				if (region.getPriority() > pRegion.getPriority()) {
-					pRegion = region;
-				}
-			}
+		Iterator<ProtectedRegion> i = rSet.iterator();	
+		ArrayList<ProtectedRegion> rList = new ArrayList<ProtectedRegion>(); 
+		//we put the regionset into a list in reversed order
+		//so we get the lowest priority first
+		
+		while(i.hasNext()){
+			ProtectedRegion r = i.next();
+			//plugin.log.info(r.getId().toString()+" end list");
+			rList.add(0,r);
 		}
-
-		// if a match was found...
-		if (pRegion != null) {
-			// get your setting...
+		i = rList.iterator();
+		
+		// looping through the list
+		while (i.hasNext()) {
+			//if you want to load multiple settings, put "i.next()" into a variable first
+			ProtectedRegion r = i.next();
 			vEnabled = plugin.config.getBoolean(
 					cBlock.getWorld().getName().toString() + "."
-							+ pRegion.getId().toString()
+							+ r.getId().toString()
 							+ ".vinecontrol_enabled", vEnabled);
-
+			//plugin.log.info(r.getId().toString()+" "+vEnabled);
 		}
-
+		
 		if (!cBlock.getType().equals(Material.VINE) || !vEnabled) {
 			return;
 		}
+		plugin.log.info("vine spread");
 		if (cBlock.getType().equals(Material.VINE)) {
-			cBlock = cBlock.getRelative(BlockFace.DOWN);
+			cBlock = event.getBlock();
+			
 			if (cBlock.isEmpty()) {
 				cBlock.setType(Material.VINE);
 				cBlock.setData(event.getSource().getData());
+			}
 				if (plugin.vineHandle(cBlock)) {
 					event.setCancelled(true);
 				}
-			}
+			
 
 		}
 	}

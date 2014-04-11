@@ -1,6 +1,8 @@
 package tk.mapzcraft.firesofhades.VineControl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
@@ -17,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -56,31 +59,24 @@ public class VineControlPlayerListener implements Listener {
 				.getApplicableRegions(cBlock.getLocation());
 		Iterator<ProtectedRegion> i = rSet.iterator();
 		ProtectedRegion region = null;
-		ProtectedRegion pRegion = null;
+		ArrayList<ProtectedRegion> rList = new ArrayList<ProtectedRegion>(); 
+		while(i.hasNext()){
+			rList.add(0,i.next());
+		}
+		i = rList.iterator();
 		while (i.hasNext()) {
 			region = i.next();
 			if (plugin.config.contains(cBlock.getWorld().getName().toString()
 					+ "." + region.getId().toString())) {
-				if (pRegion == null) {
-					pRegion = region;
-				}
-				if (region.getPriority() > pRegion.getPriority()) {
-					pRegion = region;
-				}
-			}
-		}
-		if (pRegion != null) {
-			if (plugin.config.contains(cBlock.getWorld().getName().toString()
-					+ "." + pRegion.getId().toString())) {
 				boneMeal = plugin.config.getBoolean(cBlock.getWorld().getName()
 						.toString()
 						+ "."
-						+ pRegion.getId().toString()
+						+ region.getId().toString()
 						+ ".bonemeal_enabled", boneMeal);
 				vEnabled = plugin.config.getBoolean(cBlock.getWorld().getName()
 						.toString()
 						+ "."
-						+ pRegion.getId().toString()
+						+ region.getId().toString()
 						+ ".vinecontrol_enabled", vEnabled);
 			}
 		}

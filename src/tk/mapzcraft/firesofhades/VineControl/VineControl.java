@@ -144,61 +144,55 @@ public class VineControl extends JavaPlugin {
 				.getApplicableRegions(cBlock.getLocation());
 		Iterator<ProtectedRegion> i = rSet.iterator();
 		ProtectedRegion region = null;
-		ProtectedRegion pRegion = null;
+		ArrayList<ProtectedRegion> rList = new ArrayList<ProtectedRegion>(); 
+		while(i.hasNext()){
+			rList.add(0,i.next());
+		}
+		i = rList.iterator();
 		while (i.hasNext()) {
 			region = i.next();
 			if (config.contains(cBlock.getWorld().getName().toString()
 					+ "." + region.getId().toString())) {
-				if (pRegion == null) {
-					pRegion = region;
-				}
-				if (region.getPriority() > pRegion.getPriority()) {
-					pRegion = region;
-				}
-			}
-		}
-		if (pRegion != null) {
-			if (config.contains(cBlock.getWorld().getName().toString() + "."
-					+ pRegion.getId().toString())) {
 				maxLength = config.getInt(cBlock.getWorld().getName()
 						.toString()
-						+ "." + pRegion.getId().toString() + ".max_length",
+						+ "." + region.getId().toString() + ".max_length",
 						maxLength);
 				minLength = config.getInt(cBlock.getWorld().getName()
 						.toString()
-						+ "." + pRegion.getId().toString() + ".min_length",
+						+ "." + region.getId().toString() + ".min_length",
 						minLength);
 				growthRate = config.getInt(cBlock.getWorld().getName()
 						.toString()
-						+ "." + pRegion.getId().toString() + ".growthrate",
+						+ "." + region.getId().toString() + ".growthrate",
 						growthRate);
 				aboveGround = config.getBoolean(cBlock.getWorld().getName()
 						.toString()
-						+ "." + pRegion.getId().toString() + ".above_ground",
+						+ "." + region.getId().toString() + ".above_ground",
 						aboveGround);
 				if (config.contains(cBlock.getWorld().getName().toString()
-						+ "." + pRegion.getId().toString() + ".blacklist")) {
+						+ "." + region.getId().toString() + ".blacklist")) {
 					blackList.clear();
 					blackList.addAll(config.getStringList(cBlock.getWorld()
 							.getName().toString()
-							+ "." + pRegion.getId().toString() + ".blacklist"));
+							+ "." + region.getId().toString() + ".blacklist"));
 				}
 				maxCut = config
 						.getInt(cBlock.getWorld().getName().toString() + "."
-								+ pRegion.getId().toString() + ".max_cut",
+								+ region.getId().toString() + ".max_cut",
 								maxCut);
 			}
 		}
 
+
 		if ((maxCut + minLength) > maxLength) {
-			if (pRegion != null) {
+			if (region != null) {
 				log.warning("<VineControl> conflicting config for world: "
 						+ cBlock.getWorld().getName().toString() + ", region: "
-						+ pRegion.getId());
+						+ region.getId());
 				log.warning("<VineControl> maxLength: " + maxLength.toString()
 						+ " minLength: " + minLength.toString() + " maxCut: "
 						+ maxCut.toString());
-				log.warning("<VineControl> vines will not grow untill problem is fixed");
+				log.warning("<VineControl> vines will not grow until problem is fixed");
 			} else {
 				log.warning("<VineControl> conflicting config for world: "
 						+ cBlock.getWorld().getName().toString());
@@ -216,7 +210,10 @@ public class VineControl extends JavaPlugin {
 				&& !VineControl.aVines.contains(cBlock.getX() + " "
 						+ cBlock.getY() + " " + cBlock.getZ() + " "
 						+ cBlock.getWorld().getName())) {
-
+			cBlock.setType(Material.AIR);
+			log.info("vine spread stopped");
+			return true;
+			
 		}
 		// checks if the vine is next to a blacklisted block and removes it
 		int listc = 0;

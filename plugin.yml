@@ -1,6 +1,6 @@
 name: VineControl
 main: tk.mapzcraft.firesofhades.VineControl.VineControl
-version: 1.1
+version: 1.3
 depend: [WorldEdit, WorldGuard]
 commands:
   vinecontrol:
