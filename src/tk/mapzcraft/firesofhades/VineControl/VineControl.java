@@ -263,25 +263,29 @@ public class VineControl extends JavaPlugin {
 		// untill it finds the block on wich the vine hangs or the vine exceeds
 		// the maxLength
 		while (!vineAttached) {
+			ArrayList<Material> nonAttachMat = new ArrayList<Material>();
+			nonAttachMat.add(Material.AIR);
+			nonAttachMat.add(Material.VINE);
+			nonAttachMat.add(Material.AIR);
 			if (cBlock.getState().getData() instanceof Vine) {
 				bs = cBlock.getState();
 				if (((Vine) bs.getData()).isOnFace(BlockFace.EAST)) {
-					if (!cBlock.getRelative(BlockFace.EAST).isEmpty()) {
+					if (cBlock.getRelative(BlockFace.EAST).getType().isSolid()) {
 						vineAttached = true;
 					}
 				}
 				if (((Vine) bs.getData()).isOnFace(BlockFace.WEST)) {
-					if (!cBlock.getRelative(BlockFace.WEST).isEmpty()) {
+					if (cBlock.getRelative(BlockFace.WEST).getType().isSolid()) {
 						vineAttached = true;
 					}
 				}
 				if (((Vine) bs.getData()).isOnFace(BlockFace.NORTH)) {
-					if (!cBlock.getRelative(BlockFace.NORTH).isEmpty()) {
+					if (cBlock.getRelative(BlockFace.NORTH).getType().isSolid()) {
 						vineAttached = true;
 					}
 				}
 				if (((Vine) bs.getData()).isOnFace(BlockFace.SOUTH)) {
-					if (!cBlock.getRelative(BlockFace.SOUTH).isEmpty()) {
+					if (cBlock.getRelative(BlockFace.SOUTH).getType().isSolid()) {
 						vineAttached = true;
 					}
 				}
